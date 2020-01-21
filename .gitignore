@@ -1,0 +1,10 @@
+/node_modules
+/fontawesome-free
+/images
+/dist
+/css
+/sass
+*.css
+index.html
+config.js
+pushproduction.sh
