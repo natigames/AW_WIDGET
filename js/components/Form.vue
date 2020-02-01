@@ -44,7 +44,7 @@
 				</div>
 				<div class="form-group row align-items-end">
 					<label for="placename" class="col-sm-4">{{ label_birthplace }}:</label>
-					<input type="text" name="placename" class="form-control col-sm-8 mx-2 mx-sm-0" :value="$parent.$parent.params.default_user_data.birthplace" :placeholder="placeholder_input_birthplace" required @input="invalidMsg($event)" @invalid="invalidMsg($event)">
+					<input type="text" ref="placefield1" name="placename" class="form-control col-sm-8 mx-2 mx-sm-0" :value="$parent.$parent.params.default_user_data.birthplace" :placeholder="placeholder_input_birthplace" required @input="invalidMsg($event)" @invalid="invalidMsg($event)">
 				</div>
 				<template v-if="$parent.product && $parent.product.metadata.indexOf('profileid') != -1">
 					<h4 class="person2-title text-center">{{ heading_person2 }}</h4>				
@@ -63,7 +63,7 @@
 					</div>
 					<div class="form-group row align-items-end">
 						<label for="p2_placename" class="col-sm-4 mx-2 mx-sm-0">{{ label_birthplace }}:</label>
-						<input type="text" name="p2_placename" class="form-control col-sm-8 mx-2 mx-sm-0" :value="$parent.$parent.params.default_user_data.p2_birthplace" :placeholder="placeholder_input_birthplace" required @input="invalidMsg($event)" @invalid="invalidMsg($event)">
+						<input type="text" ref="placefield2" name="p2_placename" class="form-control col-sm-8 mx-2 mx-sm-0" :value="$parent.$parent.params.default_user_data.p2_birthplace" :placeholder="placeholder_input_birthplace" required @input="invalidMsg($event)" @invalid="invalidMsg($event)">
 					</div>
 				</template>
 				<template v-if="$parent.product && $parent.product.metadata && ($parent.product.metadata.indexOf('placename') != -1 || $parent.product.metadata.indexOf('repyear') != -1)">
@@ -72,7 +72,7 @@
 				<template v-if="$parent.product && $parent.product.metadata.indexOf('placename') != -1">
 					<div class="form-group row align-items-end">
 						<label for="meta_placename" class="col-sm-4">{{ label_meta_place }}:</label>
-						<input type="text" name="meta_placename" class="form-control col-sm-8 mx-2 mx-sm-0" :placeholder="placeholder_input_birthplace" :value="$parent.$parent.params.default_user_data.meta_place" required @input="invalidMsg($event)" @invalid="invalidMsg($event)">
+						<input type="text" ref="placefield3" name="meta_placename" class="form-control col-sm-8 mx-2 mx-sm-0" :placeholder="placeholder_input_birthplace" :value="$parent.$parent.params.default_user_data.meta_place" required @input="invalidMsg($event)" @invalid="invalidMsg($event)">
 					</div>
 				</template>
 				<template v-if="$parent.product && $parent.product.metadata.indexOf('repyear') != -1">
@@ -165,7 +165,7 @@ export default {
 	},
 	methods: {
 		bindGooglePlaces() {
-			window.setTimeout(function() {
+			/*window.setTimeout(function() {
 				//Initialize Place Google Places for Place field
 				let placeField = $("input[name='placename']")[0];
 				new google.maps.places.Autocomplete(placeField, {
@@ -184,7 +184,31 @@ export default {
 					});
 				}
 
-			}, 1000);
+			}, 1000);*/
+
+			if(typeof(google) != "undefined") {
+				//let placeField = $("#astroweb-horoscope_" + this.$parent.uid + " input[name='placename']")[0];
+				let placeField1 = this.$refs.placefield1;
+				let placeField2 = this.$refs.placefield2;
+				let placeField3 = this.$refs.placefield3;
+				new google.maps.places.Autocomplete(placeField1, {
+					types: ['(cities)'],
+				});
+				if(placeField2) {
+					new google.maps.places.Autocomplete(placeField2, {
+						types: ['(cities)'],
+					});
+				}
+				if(placeField3) {
+					new google.maps.places.Autocomplete(placeField3, {
+						types: ['(cities)'],
+					});
+				}
+			} else {
+				let self = this;
+				window.setTimeout(() => {self.bindGooglePlaces();}, 100);
+			}
+
 		},
 		invalidMsg(evt) {
 			let target = evt.target;

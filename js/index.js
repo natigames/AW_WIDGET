@@ -98,10 +98,13 @@ $(document).ready(function(){
 			reporter,
 		},
 		created(){
-			//load google places api
-			let placesSrc = 'https://maps.googleapis.com/maps/api/js?key=' + ASTROWEB_CONFIG.GoogleMapsKey + '&libraries=places';
-			let placesTag = "<script type='text/javascript' src=" + placesSrc + "><\/script>"; 
-			$("head").append(placesTag);
+			//Only add google places tag if not already loaded
+			if(document.querySelectorAll("script[src*='maps.googleapis.com/maps/api/js']").length == 0 && document.querySelectorAll("script[src*='libraries=places']").length == 0) {
+				//load google places api
+				let placesSrc = 'https://maps.googleapis.com/maps/api/js?key=' + ASTROWEB_CONFIG.GoogleMapsKey + '&libraries=places';
+				let placesTag = "<script type='text/javascript' src=" + placesSrc + "><\/script>"; 
+				$("head").append(placesTag);
+			}
 
 			this.config = this.getConfig();
 
