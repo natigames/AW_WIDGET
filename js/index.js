@@ -39,10 +39,6 @@ library.add(faUserSecret, faFilePdf, faArrowRight, faArrowLeft);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 $(document).ready(function(){
-	if(ASTROWEB_CONFIG.autoWrapper) {
-		$("body").wrapInner("<div id='astroweb'></div>");
-	} 
-
 	let cssOverride = `
 		<style>
 		/* Reset css so external css doesn't affect the widget */
